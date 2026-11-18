@@ -16,7 +16,7 @@
 ## Конспект модулей 1–7
 
 - Интерактивная схема: [konspekt_moduli_01_07.html](https://den271.github.io/ai-agent-course/konspekt_moduli_01_07.html)
-- Текст конспекта: [konspekt_moduli_01_07.md](https://den271.github.io/ai-agent-course/konspekt_moduli_01_07.md)
+- Текст конспекта: [открыть в просмотрщике](https://den271.github.io/ai-agent-course/#konspekt) · [исходный Markdown](https://den271.github.io/ai-agent-course/konspekt_moduli_01_07.md)
 
 На главной странице курса эти ссылки стоят в шапке.
 
@@ -35,3 +35,4 @@
 ---
 
 © 2026 Dennis Popov · [dennis.popov@gmail.com](mailto:dennis.popov@gmail.com)
+
