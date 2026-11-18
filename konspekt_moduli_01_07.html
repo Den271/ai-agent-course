@@ -340,12 +340,35 @@ summary { cursor: pointer; font: 500 var(--t-label) var(--font-mono); margin-bot
 </style>
 <style>
   .cap-strip { display: flex; flex-wrap: wrap; gap: var(--s-2); margin: var(--s-4) 0 0; }
-  .cap-strip .chip { font-family: var(--font-mono); font-size: var(--t-label); }
+  .cap-strip .chip {
+    font-family: var(--font-mono);
+    font-size: var(--t-label);
+    cursor: pointer;
+    border: 1px solid var(--border-bright);
+    background: var(--surface);
+    color: var(--text);
+    border-radius: var(--r-1);
+    padding: var(--s-2) var(--s-3);
+  }
+  .cap-strip .chip[aria-current="true"] {
+    background: var(--accent-dim);
+    border-color: var(--accent);
+    color: var(--text);
+  }
   .pass-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: var(--s-3); margin: 0; padding: 0; list-style: none; }
   .pass-list li { margin: 0; padding: var(--s-3); border: 1px solid var(--border); border-radius: var(--r-2); background: var(--surface); }
   .pass-list .n { font-family: var(--font-mono); color: var(--accent); font-size: var(--t-label); }
   .pass-list p { margin: var(--s-2) 0 0; font-size: var(--t-small); }
   .ve-steps .ve-at:not(.now) { pointer-events: none; }
+  .ve-cap a.step-text {
+    display: inline-block;
+    margin-left: var(--s-2);
+    font-family: var(--font-mono);
+    font-size: var(--t-label);
+    color: var(--accent);
+    text-decoration: underline dotted;
+  }
+  .pass-link { margin-top: var(--s-3); font-size: var(--t-small); }
 </style>
 </head>
 <body>
@@ -379,12 +402,11 @@ summary { cursor: pointer; font: 500 var(--t-label) var(--font-mono); margin-bot
   <section id="grow">
     <p class="ve-label caps">Модули 1–7</p>
     <h2>Семь шагов наращивают помощника</h2>
-    <p>На каждом шаге меняется рисунок. Подпись — главное правило модуля.</p>
+    <p>На каждом шаге меняется рисунок. Подпись — главное правило модуля. Адрес шага: <code>#m1</code>–<code>#m7</code>.</p>
 
-    <figure class="ve-steps">
+    <figure class="ve-steps" id="steps">
       <div class="frame">
         <svg class="ve-svg" viewBox="0 0 840 360" role="img" aria-label="Семь способностей Учебного помощника: среда, циклы, инструменты, контекст, сессии, доказательства и MCP." style="--ve-min: 720px">
-          <!-- Module strip always visible -->
           <g data-s="0">
             <rect class="ve-bnd" x="20" y="16" width="800" height="44" rx="4"/>
             <text class="ve-bnd-t" x="28" y="30">помощник</text>
@@ -404,7 +426,6 @@ summary { cursor: pointer; font: 500 var(--t-label) var(--font-mono); margin-bot
             <g class="ve-co" data-s="7" transform="translate(718 28)"><circle r="10"/><text>7</text></g>
           </g>
 
-          <!-- Step 1: true state → filter → observation → decide → gate → action -->
           <g class="ve-at" data-s="1">
             <path class="ve-e" pathLength="1" d="M120 160H220"/>
             <text class="ve-el" x="170" y="150">фильтр</text>
@@ -415,15 +436,14 @@ summary { cursor: pointer; font: 500 var(--t-label) var(--font-mono); margin-bot
             <circle class="ve-tok" data-s="1" r="5" style="offset-path: path('M120 160H220')"/>
             <circle class="ve-tok" data-s="1" r="5" style="offset-path: path('M360 160H450'); --d: 200ms"/>
             <circle class="ve-tok" data-s="1" r="5" style="offset-path: path('M590 160H680'); --d: 400ms"/>
-            <g class="ve-n" transform="translate(20 115)"><rect class="sh" width="100" height="90" rx="6"/><text x="50" y="40">True</text><text class="sub" x="50" y="62">state</text></g>
+            <g class="ve-n" transform="translate(20 115)"><rect class="sh" width="100" height="90" rx="6"/><text x="50" y="34">Истинное</text><text class="sub" x="50" y="56">состояние</text></g>
             <g class="ve-n is-key" transform="translate(220 115)"><rect class="sh" width="140" height="90" rx="6"/><text x="70" y="40">Наблюдение</text><text class="sub" x="70" y="62">срез</text></g>
             <g class="ve-n" transform="translate(450 115)"><rect class="sh" width="140" height="90" rx="6"/><text x="70" y="48">Решение</text></g>
-            <g class="ve-n" transform="translate(680 115)"><rect class="sh" width="120" height="90" rx="6"/><text x="60" y="40">Действие</text><text class="sub" x="60" y="62">typed</text></g>
+            <g class="ve-n" transform="translate(680 115)"><rect class="sh" width="120" height="90" rx="6"/><text x="60" y="40">Действие</text><text class="sub" x="60" y="62">вызов</text></g>
             <text x="420" y="260">Истина в среде. Модель видит только срез.</text>
             <text class="sub" x="420" y="286">Пустая тема → ASK_CLARIFICATION, не повторный find.</text>
           </g>
 
-          <!-- Step 2: three loops on empty index -->
           <g class="ve-at" data-s="2">
             <rect class="ve-bnd" x="40" y="90" width="230" height="220" rx="4"/>
             <text class="ve-bnd-t" x="52" y="108">ReAct</text>
@@ -452,7 +472,6 @@ summary { cursor: pointer; font: 500 var(--t-label) var(--font-mono); margin-bot
             <text class="sub" x="680" y="290">заранее</text>
           </g>
 
-          <!-- Step 3: tool layers -->
           <g class="ve-at" data-s="3">
             <path class="ve-e" pathLength="1" d="M180 150H300"/>
             <text class="ve-el" x="240" y="140">read</text>
@@ -470,20 +489,17 @@ summary { cursor: pointer; font: 500 var(--t-label) var(--font-mono); margin-bot
             <text class="sub" x="420" y="286">Повтор ключа → already_processed. Неизвестный id → not_found.</text>
           </g>
 
-          <!-- Step 4: context budget eviction -->
           <g class="ve-at" data-s="4">
             <rect class="ve-bnd" x="60" y="90" width="720" height="200" rx="4"/>
             <text class="ve-bnd-t" x="72" y="108">бюджет окна</text>
-            <!-- stacked layers -->
             <g class="ve-n is-key" transform="translate(100 140)"><rect class="sh" width="160" height="70" rx="6"/><text x="80" y="30">Политика</text><text class="sub" x="80" y="50">сохранить</text></g>
             <g class="ve-n" transform="translate(290 140)"><rect class="sh" width="140" height="70" rx="6"/><text x="70" y="30">Задача</text><text class="sub" x="70" y="50">stage</text></g>
-            <g class="ve-n" transform="translate(460 140)"><rect class="sh" width="140" height="70" rx="6"/><text x="70" y="30">Evidence</text><text class="sub" x="70" y="50">затем ↓</text></g>
+            <g class="ve-n" transform="translate(460 140)"><rect class="sh" width="140" height="70" rx="6"/><text x="70" y="30">Доказатель-</text><text class="sub" x="70" y="50">ства · затем ↓</text></g>
             <g class="ve-n" transform="translate(630 140)" style="opacity:.55"><rect class="sh is-off" width="120" height="70" rx="6"/><text x="60" y="30">История</text><text class="sub" x="60" y="50">сжать 1-й</text></g>
-            <g class="ve-dim"><path class="ext" d="M100 230V250M750 230V250"/><path class="ln" d="M100 244H750M96 248l8-8M746 248l8-8"/><text x="425" y="238">порядок: история → evidence → отказ</text></g>
+            <g class="ve-dim"><path class="ext" d="M100 230V250M750 230V250"/><path class="ln" d="M100 244H750M96 248l8-8M746 248l8-8"/><text x="425" y="238">порядок: история → доказательства → отказ</text></g>
             <text class="sub" x="420" y="310">Политику незаметно не усекают. Нет места на задачу → отказ.</text>
           </g>
 
-          <!-- Step 5: five stores -->
           <g class="ve-at" data-s="5">
             <g class="ve-n" transform="translate(40 120)"><rect class="sh" width="130" height="80" rx="6"/><text x="65" y="32">Контекст</text><text class="sub" x="65" y="54">1 вызов</text></g>
             <g class="ve-n" transform="translate(190 120)"><rect class="sh" width="130" height="80" rx="6"/><text x="65" y="32">Состояние</text><text class="sub" x="65" y="54">TTL</text></g>
@@ -496,7 +512,6 @@ summary { cursor: pointer; font: 500 var(--t-label) var(--font-mono); margin-bot
             <text class="sub" x="420" y="310">Сессия изолирует. У состояния есть срок хранения.</text>
           </g>
 
-          <!-- Step 6: RAG evidence gate -->
           <g class="ve-at" data-s="6">
             <path class="ve-e" pathLength="1" d="M160 160H260"/>
             <text class="ve-el" x="210" y="150">retrieve</text>
@@ -504,24 +519,23 @@ summary { cursor: pointer; font: 500 var(--t-label) var(--font-mono); margin-bot
             <text class="ve-el" x="460" y="130">пакет</text>
             <path class="ve-e" pathLength="1" d="M660 160H740"/>
             <text class="ve-el" x="700" y="150">ответ</text>
-            <path class="ve-e" style="stroke:var(--risk)" d="M400 200H520"/>
-            <text class="ve-el" x="460" y="220" style="fill:var(--risk)">∅ → отказ</text>
+            <path class="ve-e" style="stroke:var(--risk)" d="M330 220H470"/>
+            <text class="ve-el" x="400" y="246" style="fill:var(--risk)">∅ → отказ</text>
             <circle class="ve-tok" data-s="6" r="5" style="offset-path: path('M160 160H260')"/>
             <circle class="ve-tok" data-s="6" r="5" style="offset-path: path('M400 140H520'); --d: 200ms"/>
             <g class="ve-n" transform="translate(40 115)"><rect class="sh" width="120" height="90" rx="6"/><text x="60" y="38">Запрос</text><text class="sub" x="60" y="60">student</text></g>
             <g class="ve-n" transform="translate(260 115)"><path class="sh" d="M0 14V76A70 10 0 0 0 140 76V14"/><ellipse class="sh lid" cx="70" cy="14" rx="70" ry="10"/><text x="70" y="50">Индекс</text></g>
-            <g class="ve-n is-key" transform="translate(520 100)"><rect class="sh" width="140" height="80" rx="6"/><text x="70" y="32">Evidence</text><text class="sub" x="70" y="54">ids</text></g>
-            <g class="ve-n" transform="translate(740 115)"><rect class="sh" width="80" height="90" rx="6"/><text x="40" y="48">LM</text></g>
-            <text class="sub" x="420" y="290">Пустая выборка останавливает генерацию. audience=student.</text>
+            <g class="ve-n is-key" transform="translate(520 100)"><rect class="sh" width="140" height="80" rx="6"/><text x="70" y="32">Доказатель-</text><text class="sub" x="70" y="54">ства · ids</text></g>
+            <g class="ve-n" transform="translate(740 115)"><rect class="sh" width="80" height="90" rx="6"/><text x="40" y="48">модель</text></g>
+            <text class="sub" x="420" y="300">Пустая выборка останавливает генерацию. audience=student.</text>
           </g>
 
-          <!-- Step 7: MCP host/client/server -->
           <g class="ve-at" data-s="7">
-            <rect class="ve-bnd" x="40" y="90" width="280" height="200" rx="4"/>
+            <rect class="ve-bnd" x="40" y="90" width="280" height="180" rx="4"/>
             <text class="ve-bnd-t" x="52" y="108">хост</text>
             <g class="ve-n" transform="translate(70 130)"><rect class="sh" width="100" height="60" rx="5"/><text x="50" y="35">UX</text></g>
             <g class="ve-n is-key" transform="translate(190 130)"><rect class="sh" width="100" height="60" rx="5"/><text x="50" y="26">Политика</text><text class="sub" x="50" y="46">шлюз</text></g>
-            <g class="ve-n" transform="translate(130 220)"><rect class="sh" width="100" height="50" rx="5"/><text x="50" y="30">Модель</text></g>
+            <g class="ve-n" transform="translate(130 210)"><rect class="sh" width="100" height="44" rx="5"/><text x="50" y="28">Модель</text></g>
 
             <path class="ve-e" pathLength="1" d="M320 160H420"/>
             <text class="ve-el" x="370" y="150">клиент</text>
@@ -529,25 +543,26 @@ summary { cursor: pointer; font: 500 var(--t-label) var(--font-mono); margin-bot
 
             <path class="ve-e is-hot" pathLength="1" d="M520 160H600"/>
             <text class="ve-el" x="560" y="150">call</text>
-            <rect class="ve-bnd" x="600" y="90" width="200" height="200" rx="4"/>
+            <rect class="ve-bnd" x="600" y="90" width="200" height="180" rx="4"/>
             <text class="ve-bnd-t" x="612" y="108">сервер</text>
-            <g class="ve-n" transform="translate(630 140)"><rect class="sh" width="140" height="50" rx="5"/><text x="70" y="30">scopes</text></g>
-            <g class="ve-n" transform="translate(630 210)"><path class="sh" d="M0 10V40A70 8 0 0 0 140 40V10"/><ellipse class="sh lid" cx="70" cy="10" rx="70" ry="8"/><text x="70" y="34">данные</text></g>
+            <g class="ve-n" transform="translate(630 130)"><rect class="sh" width="140" height="50" rx="5"/><text x="70" y="30">scopes</text></g>
+            <g class="ve-n" transform="translate(630 200)"><path class="sh" d="M0 10V40A70 8 0 0 0 140 40V10"/><ellipse class="sh lid" cx="70" cy="10" rx="70" ry="8"/><text x="70" y="34">данные</text></g>
 
-            <path class="ve-e" style="stroke:var(--risk)" d="M200 280H320"/><text class="ve-el" x="260" y="300" style="fill:var(--risk)">док ✕ право</text>
+            <path class="ve-e" style="stroke:var(--risk)" d="M80 300H220"/>
+            <text class="ve-el" x="150" y="320" style="fill:var(--risk)">док ✕ право</text>
             <text class="sub" x="520" y="320">Текст документа право средства не повышает.</text>
           </g>
         </svg>
       </div>
       <div class="ve-player">
         <ol class="ve-cap">
-          <li data-n="1/7">Истина и права остаются в среде. Модель получает разрешённый срез.</li>
-          <li data-n="2/7">У каждого цикла свой предел: шаги, пересмотры плана или правки.</li>
-          <li data-n="3/7">Схему, права и идемпотентность проверяет сервер.</li>
-          <li data-n="4/7">При нехватке места сначала сжимают историю. Политика сохраняется до последнего.</li>
-          <li data-n="5/7">Сессия изолирует данные. У состояния есть срок хранения.</li>
-          <li data-n="6/7">Пустая выборка завершается отказом.</li>
-          <li data-n="7/7">Границу безопасности держат политика хоста и проверка на сервере.</li>
+          <li data-n="1/7">Истина и права остаются в среде. Модель получает разрешённый срез. <a class="step-text" data-mod="1" href="ai_agent_course.html#konspekt,m1">текст модуля</a></li>
+          <li data-n="2/7">У каждого цикла свой предел: шаги, пересмотры плана или правки. <a class="step-text" data-mod="2" href="ai_agent_course.html#konspekt,m2">текст модуля</a></li>
+          <li data-n="3/7">Схему, права и идемпотентность проверяет сервер. <a class="step-text" data-mod="3" href="ai_agent_course.html#konspekt,m3">текст модуля</a></li>
+          <li data-n="4/7">При нехватке места сначала сжимают историю. Политика сохраняется до последнего. <a class="step-text" data-mod="4" href="ai_agent_course.html#konspekt,m4">текст модуля</a></li>
+          <li data-n="5/7">Сессия изолирует данные. У состояния есть срок хранения. <a class="step-text" data-mod="5" href="ai_agent_course.html#konspekt,m5">текст модуля</a></li>
+          <li data-n="6/7">Пустая выборка завершается отказом. <a class="step-text" data-mod="6" href="ai_agent_course.html#konspekt,m6">текст модуля</a></li>
+          <li data-n="7/7">Границу безопасности держат политика хоста и проверка на сервере. <a class="step-text" data-mod="7" href="ai_agent_course.html#konspekt,m7">текст модуля</a></li>
         </ol>
         <button data-go="-1" aria-label="Предыдущий шаг">←</button>
         <button data-play>Play</button>
@@ -557,14 +572,14 @@ summary { cursor: pointer; font: 500 var(--t-label) var(--font-mono); margin-bot
       <figcaption><span class="fig-n">Fig. 2</span>Каждый шаг добавляет одну проверяемую способность и оставляет прежние правила.</figcaption>
     </figure>
 
-    <div class="cap-strip" aria-label="Способности">
-      <span class="chip">1 runtime</span>
-      <span class="chip">2 циклы</span>
-      <span class="chip">3 договор tool</span>
-      <span class="chip">4 сборщик</span>
-      <span class="chip">5 изоляция</span>
-      <span class="chip">6 evidence</span>
-      <span class="chip">7 MCP</span>
+    <div class="cap-strip" role="group" aria-label="Шаги модулей">
+      <button type="button" class="chip" data-step="1">1 среда</button>
+      <button type="button" class="chip" data-step="2">2 циклы</button>
+      <button type="button" class="chip" data-step="3">3 tool</button>
+      <button type="button" class="chip" data-step="4">4 контекст</button>
+      <button type="button" class="chip" data-step="5">5 сессии</button>
+      <button type="button" class="chip" data-step="6">6 RAG</button>
+      <button type="button" class="chip" data-step="7">7 MCP</button>
     </div>
   </section>
 
@@ -578,6 +593,7 @@ summary { cursor: pointer; font: 500 var(--t-label) var(--font-mono); margin-bot
       <li><span class="n">04</span><p>Ошибка обработана</p></li>
       <li><span class="n">05</span><p>Есть отрицательный сценарий</p></li>
     </ul>
+    <p class="pass-link"><a href="#pass">Якорь раздела зачёта</a> · <a class="step-text" data-mod="1" href="ai_agent_course.html#konspekt">весь текст конспекта</a></p>
   </section>
 
   <section class="sources" id="sources" aria-label="Sources">
@@ -585,6 +601,65 @@ summary { cursor: pointer; font: 500 var(--t-label) var(--font-mono); margin-bot
     <p><code>outputs/konspekt_moduli_01_07.md</code> · модули 1–7 курса «Инженерия ИИ-агентов».</p>
   </section>
 </main>
+<script>
+(() => {
+  const textBase = () => (location.protocol === 'file:' ? 'ai_agent_course.html' : 'index.html');
+  const fig = () => document.querySelector('figure.ve-steps');
+  const markChips = (n) => {
+    document.querySelectorAll('.cap-strip [data-step]').forEach((btn) => {
+      btn.setAttribute('aria-current', String(+btn.dataset.step === n));
+    });
+  };
+  const goStep = (n, { pushHash = true, scroll = true } = {}) => {
+    const root = fig();
+    if (!root || n < 1 || n > 7) return;
+    const range = root.querySelector('input[type=range]');
+    if (range) {
+      range.value = String(n - 1);
+      range.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+    markChips(n);
+    if (pushHash) {
+      const next = `#m${n}`;
+      if (location.hash !== next) history.replaceState(null, '', next);
+    }
+    if (scroll) root.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+  const applyHash = ({ scroll = true } = {}) => {
+    const m = (location.hash || '').match(/^#m([1-7])$/i);
+    if (!m) return false;
+    goStep(+m[1], { pushHash: false, scroll });
+    return true;
+  };
+  const wireTextLinks = () => {
+    const base = textBase();
+    document.querySelectorAll('a.step-text[data-mod]').forEach((a) => {
+      const n = a.dataset.mod;
+      a.href = n ? `${base}#konspekt,m${n}` : `${base}#konspekt`;
+    });
+  };
+  const boot = () => {
+    wireTextLinks();
+    document.querySelectorAll('.cap-strip [data-step]').forEach((btn) => {
+      btn.addEventListener('click', () => goStep(+btn.dataset.step));
+    });
+    const root = fig();
+    const range = root?.querySelector('input[type=range]');
+    range?.addEventListener('input', () => markChips(+range.value + 1));
+    root?.addEventListener('ve:step', () => {
+      if (!range) return;
+      markChips(+range.value + 1);
+      const next = `#m${+range.value + 1}`;
+      if (/^#m[1-7]$/i.test(location.hash || '') && location.hash !== next) {
+        history.replaceState(null, '', next);
+      }
+    });
+    if (!applyHash({ scroll: true }) && range) markChips(+range.value + 1);
+  };
+  addEventListener('hashchange', () => applyHash({ scroll: true }));
+  setTimeout(boot, 0);
+})();
+</script>
 <script data-ve-kit>
 // Reader replies, shared by kit pages and plan pages: the note popover, the selection buttons, and sending one reply
 // to the agent. Kit pages turn on page replies with veReply.page(); plan.js builds its own response on the same parts.
